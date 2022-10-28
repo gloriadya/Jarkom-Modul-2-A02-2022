@@ -96,8 +96,6 @@ Bantu Loid membuat website utama dengan akses wise.yyy.com dengan alias www.wise
 `apt-get update`
 `apt-get install bind9 -y`<br>
 
-Setelah instalasi selesai, buat domain wise.yyy.com. Kemudian berikan command pada Ostina seperti berikut: 
-
 
 ## Soal 3
 
