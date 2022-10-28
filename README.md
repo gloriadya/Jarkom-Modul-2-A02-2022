@@ -1,10 +1,85 @@
-# JARKOM-MODUL 2-A04-2022
+# Jarkom-Modul-2-A04-2022
 
-- SAMUEL (5025201187)
-- MOHAMAD KHOLID BUGHOWI (5025201253)
-- GLORIA DYAH PRAMESTI (5025201033)
+**Jarkom A04**<br>
+**Anggota Kelompok**
+
+| Nama                   | NRP        |
+| ---------------------- | ---------- |
+| Samuel                 | 5025201187 |
+| Mohamad Kholid Bughowi | 5025201253 |
+| Gloria Dyah Pramesti   | 5025201033 |
 
 ## Soal 1
+
+Membuat topologi jaringan dimana WISE akan dijadikan sebagai DNS Master, Berlint akan dijadikan DNS Slave, dan Eden akan digunakan sebagai Web Server. Terdapat 2 Client yaitu SSS, dan Garden. Semua node terhubung pada router Ostania, sehingga dapat mengakses internet.
+
+**Penjelasan**
+
+1. Pertama buat topologi sesuai permintaan soal. Buat sebuah node yang terhubung dengan `NAT1`<br>
+![Topologi](https://user-images.githubusercontent.com/91613088/198669886-6c54261b-0b93-4bac-bb49-e2d1c8b62a39.PNG)<br>
+Lalu setting network masing-masing node dengan fitur `Edit network configuration`. Diganti dengan konfigurasi seperti berikut:<br>
+
+- Ostania
+```
+auto eth0
+iface eth0 inet dhcp
+
+auto eth1
+iface eth1 inet static
+	address 10.1.1.1
+	netmask 255.255.255.0
+
+auto eth2
+iface eth2 inet static
+	address 10.1.2.1
+	netmask 255.255.255.0
+
+auto eth3
+iface eth3 inet static
+	address 10.1.3.1
+	netmask 255.255.255.0
+```
+- Wise (DNS Master)
+```
+auto eth0
+iface eth0 inet static
+	address 10.1.3.2
+	netmask 255.255.255.0
+	gateway 10.1.3.1
+```
+- Berlint (DNS Slave)
+```
+auto eth0
+iface eth0 inet static
+	address 10.1.2.2
+	netmask 255.255.255.0
+	gateway 10.1.2.1
+```
+- Eden (Web Server)
+```
+auto eth0
+iface eth0 inet static
+	address 10.1.2.3
+	netmask 255.255.255.0
+	gateway 10.1.2.1
+```
+- SSS (Client)
+```
+auto eth0
+iface eth0 inet static
+	address 10.1.1.2
+	netmask 255.255.255.0
+	gateway 10.1.1.1
+```
+- Garden (Client)
+```
+auto eth0
+iface eth0 inet static
+	address 10.1.1.3
+	netmask 255.255.255.0
+	gateway 10.1.1.1
+```
+
 
 ## Soal 2
 
