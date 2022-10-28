@@ -16,8 +16,8 @@ Membuat topologi jaringan dimana WISE akan dijadikan sebagai DNS Master, Berlint
 **Penjelasan**
 
 1. Pertama buat topologi sesuai permintaan soal. Buat sebuah node yang terhubung dengan `NAT1`<br>
-![Topologi](https://user-images.githubusercontent.com/91613088/198669886-6c54261b-0b93-4bac-bb49-e2d1c8b62a39.PNG)<br>
-Lalu setting network masing-masing node dengan fitur `Edit network configuration`. Diganti dengan konfigurasi seperti berikut:<br>
+<br>![Topologi](https://user-images.githubusercontent.com/91613088/198669886-6c54261b-0b93-4bac-bb49-e2d1c8b62a39.PNG)<br>
+<br>Lalu setting network masing-masing node dengan fitur `Edit network configuration`. Diganti dengan konfigurasi seperti berikut:<br>
 
 - Ostania
 ```
@@ -79,7 +79,14 @@ iface eth0 inet static
 	netmask 255.255.255.0
 	gateway 10.1.1.1
 ```
+2. Restart semua node, lalu jalankan command pada Ostania:
+`iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE -s 10.1.0.0/16`<br>
 
+Lalu mengetikkan command berikut: `cat /etc/resolv.conf`dan menghasilkan hasil nameserver seperti berikut:<br>
+<br>![1a](https://user-images.githubusercontent.com/91613088/198673231-1ef5a92e-436b-4367-81ad-e0d9316f5042.PNG)<br>
+
+Agar semua node dapat terhubung ke internet, jalankan command berikut `echo nameserver 192.168.122.1 > /etc/resolv.conf`kecuali Ostania. Testing dengan ping ke google.com. Sebagai contoh pada Wise<br>
+<br>![1b](https://user-images.githubusercontent.com/91613088/198674386-bea722c9-41d3-469d-be77-e23a26442faf.PNG)<br>
 
 ## Soal 2
 
