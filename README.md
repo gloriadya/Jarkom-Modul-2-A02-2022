@@ -89,6 +89,15 @@ Agar semua node dapat terhubung ke internet, jalankan command berikut `echo name
 <br>![1b](https://user-images.githubusercontent.com/91613088/198674386-bea722c9-41d3-469d-be77-e23a26442faf.PNG)<br>
 
 ## Soal 2
+Bantu Loid membuat website utama dengan akses wise.yyy.com dengan alias www.wise.yyy.com pada folder wise.
+
+**Penjelasan**
+1. Lakukan instalasi `bind9` pada Ostina dengan command seperti berikut:
+`apt-get update`
+`apt-get install bind9 -y`<br>
+
+Setelah instalasi selesai, buat domain wise.yyy.com. Kemudian berikan command pada Ostina seperti berikut: 
+
 
 ## Soal 3
 
