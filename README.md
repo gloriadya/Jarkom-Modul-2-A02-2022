@@ -304,9 +304,101 @@ operation  IN  NS  ns1
 ' > /etc/bind/wise/wise.a04.com
 ```
 
+Jalankan pada eden
+```
+apt-get update
+apt-get install apache2 -y
+apt-get install libapache2-mod-php7.0 -y
+apt-get install php -y
+
+echo '
+<VirtualHost *:80>
+    ServerName wise.a04.com
+    ServerAlias www.wise.a04.com
+    ServerAdmin webmaster@localhost
+    DocumentRoot /var/www/wise.a04.com
+
+    ErrorLog ${APACHE_LOG_DIR}/error.log
+    CustomLog ${APACHE_LOG_DIR}/access.log combined
+</VirtualHost>
+' > /etc/apache2/sites-available/wise.a04.com.conf
+
+mkdir -p /var/www/wise.a04.com
+
+wget https://raw.githubusercontent.com/samuelsih/jarkom-modul-2-files/master/wise.zip
+
+unzip wise.zip
+
+mv wise/* /var/www/wise.a04.com
+
+a2ensite wise.a04.com.conf
+
+rm wise.zip
+rm -rf wise
+
+service apache2 restart
+```
+
 ## Soal 9
+Jalankan pada eden
+```
+a2enmod rewrite
+service apache2 restart
+
+echo '
+RewriteEngine On
+RewriteRule ^home$ index.php/home
+' > /var/www/wise.a04.com/.htaccess
+
+echo '
+ <VirtualHost *:80>
+    ServerName wise.a04.com
+    ServerAlias www.wise.a04.com
+    ServerAdmin webmaster@localhost
+    DocumentRoot /var/www/wise.a04.com
+
+    <Directory /var/www/wise.a04.com>
+        Options +FollowSymLinks -Multiviews
+        AllowOverride All
+    </Directory>
+
+    ErrorLog ${APACHE_LOG_DIR}/error.log
+    CustomLog ${APACHE_LOG_DIR}/access.log combined
+</VirtualHost>
+' > /etc/apache2/sites-available/wise.a04.com.conf
+
+service apache2 restart
+```
 
 ## Soal 10
+Jalankan pada eden
+```
+echo '
+<VirtualHost *:80>
+    ServerName eden.wise.a04.com
+    ServerAlias www.eden.wise.a04.com
+    ServerAdmin webmaster@localhost
+    DocumentRoot /var/www/eden.wise.a04.com
+
+    ErrorLog ${APACHE_LOG_DIR}/error.log
+    CustomLog ${APACHE_LOG_DIR}/access.log combined
+</VirtualHost>
+' > /etc/apache2/sites-available/eden.wise.a04.com.conf
+
+mkdir -p /var/www/eden.wise.a04.com
+
+wget https://raw.githubusercontent.com/samuelsih/jarkom-modul-2-files/master/eden.wise.zip
+
+unzip eden.wise.zip
+
+mv eden.wise/* /var/www/eden.wise.a04.com
+
+rm eden.wise.zip
+rm -rf eden.wise
+
+a2ensite eden.wise.a04.com.conf
+service apache2 restart
+```
 
 ## Soal 11
 
