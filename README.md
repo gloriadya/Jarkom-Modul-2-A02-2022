@@ -93,37 +93,43 @@ Bantu Loid membuat website utama dengan akses wise.yyy.com dengan alias www.wise
 
 **Penjelasan**
 1. Lakukan instalasi `bind9` pada Ostina dengan command seperti berikut:
-`apt-get update`
-`apt-get install bind9 -y`<br>
+```
+apt-get update
+apt-get install bind9 -y
+```
+2. Setelah instalasi selesai, buat domain wise.yyy.com. Dan lakukan command seperti berikut pada Wise `nano /etc/bind/named.conf.local`
+3. Isi konfigurasi domain wise.a04.com dengan perintah berikut:
+```
+echo 'zone "wise.a04.com" {
+    type master;
+    file "/etc/bind/wise/wise.a04.com";
+};' > /etc/bind/named.conf.local
+```
+4. Buat folder baru `mkdir -p /etc/bind/wise`
+5. Copy file db.local ke dalam folder wise yang baru dibuat dan ubah namanya menjadi wise.a04.com `cp /etc/bind/db.local /etc/bind/wise/wise.a04.com`
+6. Buka file dan edit konfigurasinya menjadi seperti berikut:
+![2a](https://user-images.githubusercontent.com/91613088/198836444-3082a633-490e-44e7-aad7-4eed9f75c2d6.PNG)<br>
 
+7. Restart bin9 `service bind9 restart`
+8. Lakukan testing untuk mengecek apakah www.wise.a04.com atau wise.a04.com dapat diakses:<br>
+![2b](https://user-images.githubusercontent.com/91613088/198836567-869d3b59-be9e-426f-b9d5-50cd765e0cb0.PNG)<br>
 
 ## Soal 3
-Setelah itu ia juga ingin membuat subdomain eden.wise.yyy.com dengan alias www.eden.wise.yyy.com yang diatur DNS-nya di WISE dan mengarah ke Eden
+Buat subdomain eden.wise.yyy.com dengan alias www.eden.wise.yyy.com yang diatur DNS-nya di WISE dan mengarah ke Eden
 
 **Penjelasan**
-1. Copy ini pada `/etc/bind/wise/wise.a04.com`
+1. Buka file wise.a04.com dan edit konfigurasi seperti berikut:<br>
+![3a](https://user-images.githubusercontent.com/91613088/198836716-d1173cce-ad96-4f13-896d-e91892ea1b12.PNG)<br>
+
+2. Tambahkan konfigurasi berikut:
 ```
-$TTL    604800
-@       IN      SOA     wise.a04.com. root.wise.a04.com. (
-                              2         ; Serial
-                         604800         ; Refresh
-                          86400         ; Retry
-                        2419200         ; Expire
-                         604800 )       ; Negative Cache TTL
-;
-@       IN      NS      wise.a04.com.
-@       IN      A       10.1.3.2        ; IP WISE
-www     IN      CNAME   wise.a04.com.
-eden   IN      A       10.1.2.3        ; IP Eden
-www.eden.wise.a04.com.     IN      CNAME   eden.wise.a04.com.
+zone "eden.wise.a04.com" {
+    type master;
+    file "/etc/bind/wise/eden.wise.a04.com";
+};
 ```
-
-2. Lalu lakukan `service bind9 restart`
-
-3. Testing
-Lakukan ping
-![3](https://user-images.githubusercontent.com/89601859/198836542-67a09141-669d-4777-abab-4e05a6ab8aa5.png)
-
+3. Lakukan testing untuk mengecek apakah www.eden.wise.a04.com atau eden.wise.a04.com dapat diakses:<br>
+![3b](https://user-images.githubusercontent.com/91613088/198837033-bf494dce-4ac9-4ec1-b075-15a4a5587872.PNG)<br>
 
 ## Soal 4
 
