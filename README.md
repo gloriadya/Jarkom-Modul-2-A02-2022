@@ -98,6 +98,32 @@ Bantu Loid membuat website utama dengan akses wise.yyy.com dengan alias www.wise
 
 
 ## Soal 3
+Setelah itu ia juga ingin membuat subdomain eden.wise.yyy.com dengan alias www.eden.wise.yyy.com yang diatur DNS-nya di WISE dan mengarah ke Eden
+
+**Penjelasan**
+1. Copy ini pada `/etc/bind/wise/wise.a04.com`
+```
+$TTL    604800
+@       IN      SOA     wise.a04.com. root.wise.a04.com. (
+                              2         ; Serial
+                         604800         ; Refresh
+                          86400         ; Retry
+                        2419200         ; Expire
+                         604800 )       ; Negative Cache TTL
+;
+@       IN      NS      wise.a04.com.
+@       IN      A       10.1.3.2        ; IP WISE
+www     IN      CNAME   wise.a04.com.
+eden   IN      A       10.1.2.3        ; IP Eden
+www.eden.wise.a04.com.     IN      CNAME   eden.wise.a04.com.
+```
+
+2. Lalu lakukan `service bind9 restart`
+
+3. Testing
+Lakukan ping
+![3](https://user-images.githubusercontent.com/89601859/198836542-67a09141-669d-4777-abab-4e05a6ab8aa5.png)
+
 
 ## Soal 4
 
