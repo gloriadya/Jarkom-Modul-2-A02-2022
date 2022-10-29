@@ -132,14 +132,177 @@ zone "eden.wise.a04.com" {
 ![3b](https://user-images.githubusercontent.com/91613088/198837033-bf494dce-4ac9-4ec1-b075-15a4a5587872.PNG)<br>
 
 ## Soal 4
+Jalankan pada wise
+```
+echo '
+$TTL    604800
+@       IN      SOA     wise.a04.com. root.wise.a04.com. (
+                              2         ; Serial
+                         604800         ; Refresh
+                          86400         ; Retry
+                        2419200         ; Expire
+                         604800 )       ; Negative Cache TTL
+;
+@       IN      NS      wise.a04.com.
+@       IN      A       10.1.3.2        ; IP WISE
+www     IN      CNAME   wise.a04.com.
+eden   IN      A       10.1.2.3        ; IP Eden
+www.eden.wise.a04.com.     IN      CNAME   eden.wise.a04.com.
+' > /etc/bind/wise/wise.a04.com
+
+service bind9 restart
+```
 
 ## Soal 5
+Jalankan pada wise
+```
+echo '
+zone "wise.a04.com" {
+    type master;
+    notify yes;
+    also-notify { 10.1.2.2; };          
+    allow-transfer { 10.1.2.2; };       
+    file "/etc/bind/wise/wise.a04.com";
+};
+zone "3.1.10.in-addr.arpa" {
+    type master;
+    file "/etc/bind/wise/3.1.10.in-addr.arpa";
+};' > /etc/bind/named.conf.local
+
+service bind9 restart
+```
+
+Jalankan pada berlint
+```
+echo '
+zone "wise.a04.com" {
+    type slave;
+    masters { 10.1.3.2; };  
+    file "/var/lib/bind/wise.a04.com";
+};' > /etc/bind/named.conf.local
+service bind9 restart
+```
 
 ## Soal 6
+Jalankan pada wise
+```
+echo '
+$TTL    604800
+@       IN      SOA     wise.a04.com. root.wise.a04.com.(
+                              2         ; Serial
+                         604800         ; Refresh
+                          86400         ; Retry
+                        2419200         ; Expire
+                         604800 )       ; Negative Cache TTL
+;
+@       IN      NS      wise.a04.com.
+@       IN      A       10.1.3.2
+@       IN      AAAA    ::1
+www     IN      CNAME   wise.a04.com.
+eden    IN      A       10.1.2.3
+www.eden.wise.a04.com. IN CNAME eden.wise.a04.com.
+ns1     IN      A       10.1.2.3
+operation  IN  NS  ns1
+' > /etc/bind/wise/wise.a04.com
+
+echo '
+options {
+    directory "/var/cache/bind";
+    allow-query { any; };
+    auth-nxdomain no;    # conform to RFC1035
+    listen-on-v6 { any; };
+};' > /etc/bind/named.conf.options
+
+service bind9 restart
+```
+
+Jalankan pada berlint
+```
+echo '
+zone "wise.a04.com" {
+    type slave;
+    masters {10.1.3.2;};
+    file "/var/lib/bind/wise.a04.com";
+};
+
+zone "operation.wise.a04.com" {
+    type master;
+    file "/etc/bind/operation/operation.wise.a04.com";
+};' > /etc/bind/named.conf.local
+
+echo '
+$TTL    604800
+@       IN      SOA     operation.wise.a04.com. root.operation.wise.a04.com. (
+                              2         ; Serial
+                         604800         ; Refresh
+                          86400         ; Retry
+                        2419200         ; Expire
+                         604800 )       ; Negative Cache TTL
+;
+@       IN      NS      operation.wise.a04.com.
+@       IN      A       10.1.2.3
+@       IN      AAAA    ::1
+www     IN      CNAME   operation.wise.a04.com.
+' > /etc/bind/operation/operation.wise.a04.com
+
+
+echo '
+options {
+    directory "/var/cache/bind";
+    allow-query { any; };
+    auth-nxdomain no;    # conform to RFC1035
+    listen-on-v6 { any; };
+};' >  /etc/bind/named.conf.options
+
+service bind9 restart
+```
 
 ## Soal 7
+Jalankan ini pada berlint
+```
+echo '
+$TTL    604800
+@       IN      SOA     operation.wise.a04.com. root.operation.wise.a04.com. (
+                              2         ; Serial
+                         604800         ; Refresh
+                          86400         ; Retry
+                        2419200         ; Expire
+                         604800 )       ; Negative Cache TTL
+;
+@       IN      NS      operation.wise.a04.com.
+@       IN      A       10.1.2.3
+@       IN      AAAA    ::1
+www     IN      CNAME   operation.wise.a04.com.
+strix   IN      A       10.1.2.3
+www.strix.operation.wise.a04.com.    IN      CNAME   strix.operation.wise.a04.com.
+' > /etc/bind/operation/operation.wise.a04.com
+
+service bind9 restart
+```
+
 
 ## Soal 8
+Ubah nameserver mengarah ke eden, lalu ubah ini pada wise
+```
+echo '
+$TTL    604800
+@       IN      SOA     wise.a04.com. root.wise.a04.com.(
+                              2         ; Serial
+                         604800         ; Refresh
+                          86400         ; Retry
+                        2419200         ; Expire
+                         604800 )       ; Negative Cache TTL
+;
+@       IN      NS      wise.a04.com.
+@       IN      A       10.1.2.3
+@       IN      AAAA    ::1
+www     IN      CNAME   wise.a04.com.
+eden    IN      A       10.1.2.3
+www.eden.wise.a04.com. IN CNAME eden.wise.a04.com.
+ns1     IN      A       10.1.2.3
+operation  IN  NS  ns1
+' > /etc/bind/wise/wise.a04.com
+```
 
 ## Soal 9
 
