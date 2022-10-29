@@ -107,7 +107,7 @@ echo 'zone "wise.a04.com" {
 ```
 4. Buat folder baru `mkdir -p /etc/bind/wise`
 5. Copy file db.local ke dalam folder wise yang baru dibuat dan ubah namanya menjadi wise.a04.com `cp /etc/bind/db.local /etc/bind/wise/wise.a04.com`
-6. Buka file dan edit konfigurasinya menjadi seperti berikut:
+6. Buka file dan edit konfigurasinya menjadi seperti berikut:<br>
 ![2a](https://user-images.githubusercontent.com/91613088/198836444-3082a633-490e-44e7-aad7-4eed9f75c2d6.PNG)<br>
 
 7. Restart bin9 `service bind9 restart`
