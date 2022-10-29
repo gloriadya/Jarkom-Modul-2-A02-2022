@@ -110,7 +110,7 @@ echo 'zone "wise.a04.com" {
 6. Buka file dan edit konfigurasinya menjadi seperti berikut:<br>
 ![2a](https://user-images.githubusercontent.com/91613088/198836444-3082a633-490e-44e7-aad7-4eed9f75c2d6.PNG)<br>
 
-7. Restart bin9 `service bind9 restart`
+7. Restart bind9 `service bind9 restart`
 8. Lakukan testing untuk mengecek apakah www.wise.a04.com atau wise.a04.com dapat diakses:<br>
 ![2b](https://user-images.githubusercontent.com/91613088/198836567-869d3b59-be9e-426f-b9d5-50cd765e0cb0.PNG)<br>
 
