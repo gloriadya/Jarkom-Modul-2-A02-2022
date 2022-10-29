@@ -166,9 +166,9 @@ service apache2 restart
 
 1. Buka **SSS**
 2. Ketik command `lynx www.eden.wise.a04.com/public`
-   [gambar]
+   ![image](https://user-images.githubusercontent.com/49820990/198820375-7c6b1e2b-8022-45c6-8e01-33d345b7ab98.png)
 3. Klik pada salah satu directory (`js/`)
-   [gambar]
+   ![image](https://user-images.githubusercontent.com/49820990/198820407-a97f23ad-b15a-4520-b89e-51b1a9f716a5.png)
 
 ## Soal 12
 
@@ -220,7 +220,7 @@ Pada soal ini diminta untuk mengganti error kode pada webserver **www.eden.wise.
 
 ## Soal 13
 
-Pada soal ini diminta untuk membuat konfigurasi vitual host yang dapat memberikan akses **www.eden.wise.a04.com/js** kepada **www.eden.wise.a04.com/public/js**.
+Pada soal ini diminta untuk membuat konfigurasi virtual host yang dapat memberikan akses **www.eden.wise.a04.com/js** kepada **www.eden.wise.a04.com/public/js**.
 
 **Penjelasan**
 
@@ -253,7 +253,7 @@ Pada soal ini diminta untuk membuat konfigurasi vitual host yang dapat memberika
        </Directory>
 
        <Directory /var/www/eden.wise.a04.com/public/js>
-           Options -Indexes
+           Options +Indexes
        </Directory>
 
        ErrorDocument 404 /error/404.html
@@ -273,8 +273,8 @@ Pada soal ini diminta untuk membuat konfigurasi vitual host yang dapat memberika
 **Testing**
 
 - Buka **SSS**
-- Ketik command `lynx www.eden.wise.a04.com/js` (dilakukan sebelum nomor 11)
-  ![image]
+- Ketik command `lynx www.eden.wise.a04.com/js`
+  ![image](https://user-images.githubusercontent.com/49820990/198821019-4a34e63b-66a2-4348-a330-a5c3b05997ec.png)
 
 ## Soal 14
 
@@ -309,8 +309,6 @@ Pada soal ini diminta untuk melakukan konfigurasi pada webserver **www.strix.ope
    </VirtualHost>
    ```
 
-   ![image]
-
 5. Ubah **/etc/apache2/ports.conf**
 
    ```bash
@@ -339,8 +337,6 @@ Pada soal ini diminta untuk melakukan konfigurasi pada webserver **www.strix.ope
    # vim: syntax=apache ts=4 sw=4 sts=4 sr noet
    ```
 
-   ![image]
-
 7. Buat folder **strix.operation.wise.a04.com** di dalam **/var/www**
 
    ```bash
@@ -365,8 +361,6 @@ Pada soal ini diminta untuk melakukan konfigurasi pada webserver **www.strix.ope
     mv strix.operation.wise/* /var/www/strix.operation.wise.a04.com
     ```
 
-    ![image]
-
 11. Aktifkan konfigurasi website
 
     ```bash
@@ -383,7 +377,7 @@ Pada soal ini diminta untuk melakukan konfigurasi pada webserver **www.strix.ope
 
 - Buka **SSS**
 - Ketik command `lynx 10.1.2.3:15000`
-  ![image]
+  ![image](https://user-images.githubusercontent.com/49820990/198821105-9a6f1d67-0687-43ce-b72f-8691e2a130c9.png)
 
 ## Soal 15
 
@@ -398,20 +392,33 @@ Pada soal ini diminta untuk memberikan autentikasi dengan username `Twilight` da
    htpasswd -b -c /etc/apache2/.htpasswd Twilight opStrix
    ```
 
-   ![image]
-
 3. Ubah **/etc/apache2/sites-available/strix.operation.wise.a04.com.conf**
    ```bash
    nano /etc/apache2/sites-available/strix.operation.wise.a04.com.conf
    ```
-   ![image]
-4. Buat file **.htaccess** di dalam **/var/www/strix.operation.wise.a04.com**
+4. Sesuaikan isinya seperti berikut
+   ```bash
+   <VirtualHost *:15000 *:15500>
+       ServerName strix.operation.wise.a04.com
+       ServerAlias www.strix.operation.wise.a04.com
+       ServerAdmin webmaster@localhost
+       DocumentRoot /var/www/strix.operation.wise.a04.com
+
+        <Directory /var/www/strix.operation.wise.a04.com>
+                Options +FollowSymLinks -Multiviews
+                AllowOverride All
+        </Directory>
+       ErrorLog ${APACHE_LOG_DIR}/error.log
+       CustomLog ${APACHE_LOG_DIR}/access.log combined
+   </VirtualHost>
+   ```
+5. Buat file **.htaccess** di dalam **/var/www/strix.operation.wise.a04.com**
 
    ```bash
-   nano /var/www/strix.operation.wise.a04.com
+   nano /var/www/strix.operation.wise.a04.com/.htaccess
    ```
 
-5. Sesuaikan isinya seperti berikut
+6. Sesuaikan isinya seperti berikut
 
    ```bash
    AuthType Basic
@@ -420,9 +427,7 @@ Pada soal ini diminta untuk memberikan autentikasi dengan username `Twilight` da
    Require valid-user
    ```
 
-   ![image]
-
-6. Restart apache
+7. Restart apache
 
    ```bash
    service apache2 restart
@@ -433,11 +438,12 @@ Pada soal ini diminta untuk memberikan autentikasi dengan username `Twilight` da
 - Buka **SSS**
 - Ketik command `lynx 10.1.2.3:15500`
 - Masukkan username `Twilight`
-  ![15t1]
+  ![image](https://user-images.githubusercontent.com/49820990/198821257-3e9131f3-f6cc-4f0c-b98e-270d7a248af2.png)
 - Masukkan password `opStrix`
-  ![15t2]
+  ![image](https://user-images.githubusercontent.com/49820990/198821268-6e8302ae-54e0-44c2-ace6-f56c2c026447.png)
 - Tampil halaman web
-  ![15t3]
+  ![image](https://user-images.githubusercontent.com/49820990/198821274-968fad79-6262-48e1-804f-5ac42fd0a3a3.png)
+
 
 ## Soal 16
 
@@ -455,11 +461,9 @@ Pada soal ini diminta untuk mengarahkan IP Eden (**10.1.2.3**) ke **www.wise.a04
    ```
    RewriteEngine On
    RewriteBase /
-   RewriteCond %{HTTP_HOST} ^10\.1\.2\.4$
+   RewriteCond %{HTTP_HOST} ^10\.1\.2\.3$
    RewriteRule ^(.*)$ http://www.wise.a04.com [L,R=301]
    ```
-
-   ![image]
 
 3. Ubah /etc/apache2/sites-available/000-default.conf
 
@@ -484,8 +488,6 @@ Pada soal ini diminta untuk mengarahkan IP Eden (**10.1.2.3**) ke **www.wise.a04
    </VirtualHost>
    ```
 
-   ![image]
-
 5. Restart apache
 
    ```bash
@@ -496,7 +498,7 @@ Pada soal ini diminta untuk mengarahkan IP Eden (**10.1.2.3**) ke **www.wise.a04
 
 - Buka **SSS**
 - Ketik command `lynx 10.1.2.3`
-  ![16t]
+  ![image](https://user-images.githubusercontent.com/49820990/198821488-0e0b65f1-af97-46f6-a3d9-15636a94182a.png)
 
 ## Soal 17
 
@@ -518,13 +520,12 @@ Pada soal ini diminta untuk mengarahkan request gambar yang memiliki substring `
    RewriteRule ^(.*)eden(.*)$ http://www.eden.wise.a04.com/public/images/eden.png [L,R]
    ```
 
-   ![17a]
-
 4. Ubah **/etc/apache2/sites-available/eden.wise.a04.com.conf**
 
    ```bash
    nano /etc/apache2/sites-available/eden.wise.a04.com.conf
    ```
+5. Sesuaikan isinya seperti ini
 
    ```
    <VirtualHost *:80>
@@ -563,8 +564,6 @@ Pada soal ini diminta untuk mengarahkan request gambar yang memiliki substring `
    </VirtualHost>
    ```
 
-   ![17b]
-
 5. Restart apache
 
    ```bash
@@ -575,4 +574,4 @@ Pada soal ini diminta untuk mengarahkan request gambar yang memiliki substring `
 
 - Buka **SSS**
 - Ketik command `lynx www.eden.wise.a04.com/aeden12.png` (dilakukan sebelum nomor 11)
-  ![image](https://user-images.githubusercontent.com/76677130/139530612-82ad6716-e7f6-4edd-b12a-b49ed61a1381.png)
+  ![image](https://user-images.githubusercontent.com/49820990/198821838-436f1092-a5f5-4101-8854-11d5ab5606dc.png)
